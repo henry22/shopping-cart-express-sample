@@ -1,7 +1,16 @@
+const nodemailer = require('nodemailer')
 const db = require('../models')
 const Order = db.Order
 const OrderItem = db.OrderItem
 const Cart = db.Cart
+
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: '',
+    pass: ''
+  }
+})
 
 const orderController = {
   getOrders: (req, res) => {
@@ -33,6 +42,21 @@ const orderController = {
             })
           )
         }
+
+        const mailoptions = {
+          from: '',
+          to: '',
+          subject: `${order.id} 訂單成立`,
+          test: `${order.id} 訂單成立`
+        }
+
+        transporter.sendMail(mailoptions, function(error, info) {
+          if(error) {
+            console.log(error)
+          } else {
+            console.log('Email send: ' + info.response)
+          }
+        })
 
         return Promise.all(results).then(() => {
           return res.redirect('/orders')

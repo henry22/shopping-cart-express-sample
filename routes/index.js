@@ -3,6 +3,7 @@ var router = express.Router();
 
 const productController = require('../controllers/productController')
 const cartController = require('../controllers/cartController')
+const orderController = require('../controllers/orderController')
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -15,5 +16,7 @@ router.post('/cart', cartController.postCart)
 router.post('/cartItem/:id/add', cartController.addCartItem)
 router.post('/cartItem/:id/sub', cartController.subCartItem)
 router.delete('/cartItem/:id', cartController.deleteCartItem)
+
+router.get('/orders', orderController.getOrders)
 
 module.exports = router;
